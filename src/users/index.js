@@ -25,11 +25,11 @@ userRouter.post("/login", async (req, res, next) => {
     console.log(user);
     const token = await authenticate(user);
     console.log(token.token);
-    res
-      .cookie("token", token.token, {
-        httpOnly: true,
-      })
-      .send({ name: user.name, favourites: user.favourites });
+    res.send({
+      name: user.name,
+      favourites: user.favourites,
+      token: token.token,
+    });
   } catch (error) {
     console.log(error);
     next(error);
@@ -72,10 +72,10 @@ userRouter.get(
   passport.authenticate("google"),
   async (req, res, next) => {
     try {
-      res.cookie("token", req.user.token.token, {
-        httpOnly: true,
-      });
-      res.status(200).redirect("http://localhost:3000/home");
+      res
+        .status(200)
+        .redirect("http://localhost:3000/home")
+        .send(req.user.token.token);
     } catch (error) {
       next(error);
     }
