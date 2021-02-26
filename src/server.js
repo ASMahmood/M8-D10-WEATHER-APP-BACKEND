@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
+const weatherRouter = require("./weatherApi");
+
 const {
   badRequestHandler,
   notFoundHandler,
@@ -11,8 +13,22 @@ const {
 const server = express();
 const port = process.env.PORT || 3002;
 
-server.use(cors());
+const whitelist = ["http://localhost:3000", "http://localhost:6969"];
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+
+server.use(cors(corsOptions));
 server.use(express.json());
+
+server.use("/weather", weatherRouter);
 
 server.use(badRequestHandler);
 server.use(notFoundHandler);
