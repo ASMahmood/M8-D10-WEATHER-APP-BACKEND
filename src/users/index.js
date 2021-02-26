@@ -74,7 +74,7 @@ userRouter.get(
     try {
       res
         .status(200)
-        .redirect(`http://localhost:3000/home?token=${req.user.token.token}`);
+        .redirect(`${process.env.FE_URL}/home?token=${req.user.token.token}`);
     } catch (error) {
       next(error);
     }

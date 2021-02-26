@@ -10,8 +10,7 @@ passport.use(
       //STATES THE THIRD PARTY AS GOOGLE
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL:
-        "https://shit-weather-app.herokuapp.com/users/3rdParty/google/Redirect", //SEND THE DATA FROM GOOGLE TO THIS URL, A ROUTE IN OUR BACKEND
+      callbackURL: process.env.BE_URL + "/users/3rdParty/google/Redirect", //SEND THE DATA FROM GOOGLE TO THIS URL, A ROUTE IN OUR BACKEND
     },
     async (request, accessToken, refreshToken, profile, done) => {
       try {
