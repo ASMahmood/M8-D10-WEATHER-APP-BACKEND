@@ -16,7 +16,11 @@ const {
 const server = express();
 const port = process.env.PORT || 3002;
 
-const whitelist = ["http://localhost:3000", "http://localhost:6969"];
+const whitelist = [
+  "http://localhost:3000",
+  "http://localhost:6969",
+  "https://weather-app-frontend-abdul.herokuapp.com/",
+];
 const corsOptions = {
   origin: (origin, callback) => {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
