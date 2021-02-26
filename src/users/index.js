@@ -1,5 +1,5 @@
 const express = require("express");
-const { authenticate, authorize } = require("../authTools");
+const { authenticate, authorize, verifyJWT } = require("../authTools");
 const passport = require("passport");
 require("../oauth/google");
 
@@ -80,5 +80,17 @@ userRouter.get(
     }
   }
 );
+
+userRouter.get("/homepage/userinfo/help/me", async (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const decodedToken = await verifyJWT(token);
+    const user = await UserModel.findOne({ _id: decodedToken._id });
+    res.send({ name: user.name, favourites: user.favourites });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
 
 module.exports = userRouter;
