@@ -1,9 +1,10 @@
 const express = require("express");
 const axios = require("axios");
+const { authorize } = require("../authTools");
 
 const weatherRouter = express.Router();
 
-weatherRouter.get("/city", async (req, res, next) => {
+weatherRouter.get("/city", authorize, async (req, res, next) => {
   try {
     await axios
       .get(
@@ -16,7 +17,7 @@ weatherRouter.get("/city", async (req, res, next) => {
   }
 });
 
-weatherRouter.get("/geolocation", async (req, res, next) => {
+weatherRouter.get("/geolocation", authorize, async (req, res, next) => {
   try {
     await axios
       .get(

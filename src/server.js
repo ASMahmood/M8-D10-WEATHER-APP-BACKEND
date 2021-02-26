@@ -1,8 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const passport = require("passport");
+const cookieParser = require("cookie-parser");
 
 const weatherRouter = require("./weatherApi");
+const userRouter = require("./users");
 
 const {
   badRequestHandler,
@@ -27,8 +30,11 @@ const corsOptions = {
 
 server.use(cors(corsOptions));
 server.use(express.json());
+server.use(passport.initialize());
+server.use(cookieParser());
 
 server.use("/weather", weatherRouter);
+server.use("/users", userRouter);
 
 server.use(badRequestHandler);
 server.use(notFoundHandler);
