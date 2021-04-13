@@ -20,6 +20,7 @@ const whitelist = [
   "http://localhost:3000",
   "http://localhost:6969",
   "https://weather-app-frontend-abdul.herokuapp.com",
+  "https://weather-app-typescript.vercel.app",
 ];
 const corsOptions = {
   origin: (origin, callback) => {
