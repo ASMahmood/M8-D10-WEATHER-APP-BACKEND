@@ -23,13 +23,18 @@ userRouter.post("/login", async (req, res, next) => {
     const { email, password } = req.body;
     const user = await UserModel.findByCredentials(email, password);
     console.log(user);
-    const token = await authenticate(user);
-    console.log(token.token);
-    res.send({
-      name: user.name,
-      favourites: user.favourites,
-      token: token.token,
-    });
+    if (user) {
+      const token = await authenticate(user);
+
+      console.log(token.token);
+      res.send({
+        name: user.name,
+        favourites: user.favourites,
+        token: token.token,
+      });
+    } else {
+      res.status(404).send({ message: "No User Found" });
+    }
   } catch (error) {
     console.log(error);
     next(error);
