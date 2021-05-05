@@ -11,7 +11,7 @@ userRouter.post("/register", async (req, res, next) => {
   try {
     const newUser = new UserModel(req.body);
     const { _id } = await newUser.save();
-    res.send(_id);
+    res.send({ userId: _id });
   } catch (error) {
     console.log(error);
     next(error);
@@ -58,9 +58,9 @@ userRouter.put("/favourites/remove", authorize, async (req, res, next) => {
   try {
     await UserModel.findOneAndUpdate(
       { email: req.user.email },
-      { $pull: { favourites: { name: req.body.name } } }
+      { $pull: { favourites: { _id: req.body.id } } }
     );
-    res.send();
+    res.send({ message: "Removed!" });
   } catch (error) {
     console.log(error);
     next(error);
